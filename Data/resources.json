@@ -647,5 +647,115 @@
     "link": "https://www.canada.ca/en/services/benefits/dental/dental-care-plan.html",
     "good_to_know": "Eligibility depends on several criteria, including access to other dental coverage.",
     "last_verified": "2026-09-26"
+  },
+  {
+    "id": "checker-cab",
+    "name": "Checker Cab",
+    "category": "transport",
+    "description": "Fredericton taxi service for city trips and airport rides. Call 506-450-8294 or book online.",
+    "address": "3 Homestead Dr, Fredericton",
+    "hours": "24/7",
+    "link": "https://www.checkercab.ca/contact-us",
+    "good_to_know": "Ask for an accessible vehicle if needed; confirm pickup and fare when booking.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "trius-taxi",
+    "name": "Trius Taxi",
+    "category": "transport",
+    "description": "Fredericton taxi and shuttle service. Call 506-454-4444 to book or ask for a quote.",
+    "address": "Fredericton; pickup locations vary",
+    "hours": "24-hour service; call to confirm availability",
+    "link": "https://www.triustaxi.com/",
+    "good_to_know": "Confirm the fare, pickup location and payment method when booking.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "loyal-taxi",
+    "name": "Loyal Taxi",
+    "category": "transport",
+    "description": "Fredericton taxi service with phone, online and app booking. Call 506-455-6789.",
+    "address": "380 St. Mary’s St, Fredericton",
+    "hours": "Call to confirm availability",
+    "link": "https://www.loyaltaxicab.com/",
+    "good_to_know": "Confirm your pickup location, estimated wait and fare before travelling.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "klub-khrome",
+    "name": "Klub Khrome",
+    "category": "social",
+    "description": "Downtown nightclub with DJs, dancing and special events.",
+    "address": "375 King St, Fredericton",
+    "hours": "Event hours vary; check the current listing",
+    "link": "https://www.klubkhrome.ca/events/",
+    "good_to_know": "Call 506-206-5582 or check the event page for hours, tickets and entry requirements.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "the-cap",
+    "name": "The Cap",
+    "category": "social",
+    "description": "Downtown live-music venue with shows, comedy and local arts events.",
+    "address": "362 Queen St, Fredericton",
+    "hours": "Showtimes vary by event",
+    "link": "https://www.thecaplive.com/events-list",
+    "good_to_know": "Check the event listing for tickets, age restrictions and showtime.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "monarch-night-club",
+    "name": "Monarch Night Club",
+    "category": "social",
+    "description": "LGBTQ+ nightclub featuring drag shows, karaoke and dance events.",
+    "address": "474 Queen St, Fredericton",
+    "hours": "Event hours vary; check the current listing",
+    "link": "https://www.frederictoncapitalregion.ca/eat-drink/pubs-clubs/monarch-night-club",
+    "good_to_know": "Check Monarch’s current event posts for admission, tickets and age requirements.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "unplugged-games",
+    "name": "Unplugged Board Games Café",
+    "category": "social",
+    "description": "Play board games with friends or meet people at this downtown games café.",
+    "address": "418 Queen St, Fredericton",
+    "hours": "Wed–Thu 5–9 p.m.; Fri 5–11 p.m.; Sat noon–11 p.m.; Sun noon–9 p.m.",
+    "link": "https://www.unpluggedgamescafe.com/",
+    "good_to_know": "Games have an admission charge; check the site for current price and holiday hours.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "capital-city-road-runners",
+    "name": "Capital City Road Runners & Walkers",
+    "category": "social",
+    "description": "Join group runs and walks with people of varied abilities in Fredericton.",
+    "address": "Usually starts at UNB Currie Centre",
+    "hours": "Thu 5:30 p.m.; Sat 8:30 a.m.; confirm before going",
+    "link": "https://www.ccrr.ca/",
+    "good_to_know": "Check membership information and the latest meeting location before joining.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "photo-fredericton",
+    "name": "Photo Fredericton",
+    "category": "social",
+    "description": "Photography club with meetings, competitions and opportunities to share ideas.",
+    "address": "Usually St. Thomas University, Sir James Dunn Hall, Room G5",
+    "hours": "Typically second and fourth Tuesdays, Sept–May, 7–9 p.m.; confirm dates",
+    "link": "https://www.photofredericton.ca/",
+    "good_to_know": "Check upcoming club dates and membership details before attending.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "fredericton-bouldering",
+    "name": "Fredericton Bouldering Co-op",
+    "category": "social",
+    "description": "Try indoor climbing and meet people through events and group activities.",
+    "address": "528 Smythe St, Fredericton",
+    "hours": "Drop-in times vary; see live calendar",
+    "link": "https://www.fbcwall.com/",
+    "good_to_know": "Check first-visit pricing, waiver requirements and the drop-in schedule.",
+    "last_verified": "2026-09-26"
   }
 ]
