@@ -482,5 +482,170 @@
     "link": "https://www.gnb.ca/en/topic/health-wellness/access-health-care/pharmacy-services.html",
     "good_to_know": "Coverage and eligibility vary; call ahead for an appointment.",
     "last_verified": "2026-09-26"
+  },
+  {
+    "id": "restaurants-directory",
+    "name": "Fredericton restaurants directory",
+    "category": "daily-life",
+    "description": "Browse restaurants and cafés around Fredericton by cuisine and area.",
+    "address": "Fredericton and capital region",
+    "hours": "Check linked page for current hours",
+    "link": "https://www.frederictoncapitalregion.ca/eat-drink/restaurants-bistros",
+    "good_to_know": "Use the directory to find more choices; confirm opening hours and menu with the restaurant.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "caribbean-flavas",
+    "name": "Caribbean Flavas",
+    "category": "daily-life",
+    "description": "Caribbean restaurant with dine-in meals in downtown Fredericton.",
+    "address": "123 York St, Fredericton",
+    "hours": "Check linked page for current hours",
+    "link": "https://www.frederictoncapitalregion.ca/eat-drink/restaurants-cafes/caribbean-flavas-restaurant",
+    "good_to_know": "Check the current menu and hours before visiting.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "namaste-bistro",
+    "name": "Namaste Bistro",
+    "category": "daily-life",
+    "description": "Indian restaurant with curries and dine-in or takeout options.",
+    "address": "5 Acorn St, Fredericton",
+    "hours": "Check linked page for current hours",
+    "link": "https://www.frederictoncapitalregion.ca/eat-drink/restaurants-cafes/namaste-bistro",
+    "good_to_know": "Check the current menu and hours before visiting.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "naru-japanese",
+    "name": "Naru Japanese Cuisine",
+    "category": "daily-life",
+    "description": "Downtown Japanese restaurant serving sushi for dine-in or takeout.",
+    "address": "536 Queen St, Fredericton",
+    "hours": "Check linked page for current hours",
+    "link": "https://www.frederictoncapitalregion.ca/eat-drink/restaurants-cafes/naru-japanese-cuisine",
+    "good_to_know": "Check the current menu and hours before visiting.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "byblos",
+    "name": "Byblos Restaurant & Bar",
+    "category": "daily-life",
+    "description": "Downtown Lebanese restaurant serving shared plates and entrées.",
+    "address": "215 Queen St, Fredericton",
+    "hours": "Check linked page for current hours",
+    "link": "https://www.frederictoncapitalregion.ca/eat-drink/restaurants-cafes/byblos-restaurant-bar",
+    "good_to_know": "Check the current menu and hours before visiting.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "decrh-hospital",
+    "name": "Dr. Everett Chalmers Regional Hospital",
+    "category": "health-insurance",
+    "description": "Find Fredericton’s regional hospital and emergency department.",
+    "address": "700 Priestman St, Fredericton",
+    "hours": "Check linked page for current hours",
+    "link": "https://horizonnb.ca/facilities/dr-everett-chalmers-regional-hospital/",
+    "good_to_know": "For a life-threatening emergency, call 911. Ask about charges if you do not yet have valid coverage.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "oromocto-hospital",
+    "name": "Oromocto Public Hospital",
+    "category": "health-insurance",
+    "description": "Find the nearby Oromocto hospital and its emergency department.",
+    "address": "103 Winnebago St, Oromocto",
+    "hours": "Check linked page for current hours",
+    "link": "https://horizonnb.ca/services/emergency-department/",
+    "good_to_know": "Check the current service status before travelling. For a life-threatening emergency, call 911.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "find-medical-clinic",
+    "name": "Find a medical clinic",
+    "category": "health-insurance",
+    "description": "Find non-emergency medical clinics and current clinic listings in New Brunswick.",
+    "address": "Online directory; locations vary",
+    "hours": "Check linked page for current hours",
+    "link": "https://www.gnb.ca/en/topic/health-wellness/access-health-care/medical-clinics.html",
+    "good_to_know": "Many clinics need a same-day booking before you arrive. Ask about fees and accepted insurance.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "fredericton-public-health",
+    "name": "Fredericton Public Health Clinic",
+    "category": "health-insurance",
+    "description": "Find the Fredericton Public Health location and contact details for public health services.",
+    "address": "300 St. Mary’s St, Room 1200, Fredericton",
+    "hours": "Check linked page for current hours",
+    "link": "https://www.gnb.ca/en/topic/health-wellness/access-health-care/public-health-clinics.html",
+    "good_to_know": "Call 506-453-5200 to confirm which service is offered and whether an appointment is needed.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "virtual-care-nb",
+    "name": "Virtual Care NB",
+    "category": "health-insurance",
+    "description": "Learn about virtual appointments for common non-emergency health problems.",
+    "address": "Online or Tele-Care 811",
+    "hours": "Check linked page for current hours",
+    "link": "https://www.gnb.ca/en/topic/health-wellness/access-health-care/virtual-care.html",
+    "good_to_know": "A valid New Brunswick Medicare card is required for this provincial service.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "medicare-covered-services",
+    "name": "Check what NB Medicare covers",
+    "category": "health-insurance",
+    "description": "Read the provincial list of insured and uninsured services, including hospital care, medicines and dental care.",
+    "address": "Online",
+    "hours": "Check linked page for current hours",
+    "link": "https://www2.gnb.ca/content/gnb/en/departments/health/DrugPlans/content/medicare/CoverageandClaimsInsideNewBrunswick.html",
+    "good_to_know": "Medicare does not cover every service. Confirm a specific bill with the provider or the province.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "nb-drug-plan",
+    "name": "New Brunswick Drug Plan",
+    "category": "health-insurance",
+    "description": "Learn how eligible New Brunswick residents without prescription drug insurance can enrol in a drug plan.",
+    "address": "Online",
+    "hours": "Check linked page for current hours",
+    "link": "https://www.gnb.ca/en/topic/health-wellness/nb-drug-plans.html",
+    "good_to_know": "Check eligibility, premiums and co-payments before enrolling; this is separate from Medicare.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "nb-drug-formulary",
+    "name": "Check prescription drug coverage",
+    "category": "health-insurance",
+    "description": "Search the New Brunswick Drug Plans formulary to see which medicines may be covered.",
+    "address": "Online",
+    "hours": "Check linked page for current hours",
+    "link": "https://www.gnb.ca/en/topic/health-wellness/nb-drug-plans/drug-plans-formulary.html",
+    "good_to_know": "Being listed does not guarantee your own plan will pay. Confirm your plan and any special authorization.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "unb-guardme-coverage",
+    "name": "UNB international student insurance details",
+    "category": "health-insurance",
+    "description": "Check UNB’s guard.me emergency plan, enrollment, opt-out rules and policy details.",
+    "address": "Online",
+    "hours": "Check linked page for current hours",
+    "link": "https://www.unb.ca/finance/financial-services/health-insurance.html",
+    "good_to_know": "Check your own policy for covered services, exclusions and dates before treatment.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "canadian-dental-plan",
+    "name": "Canadian Dental Care Plan",
+    "category": "health-insurance",
+    "description": "Check eligibility for federal dental coverage and find how to apply.",
+    "address": "Online",
+    "hours": "Check linked page for current hours",
+    "link": "https://www.canada.ca/en/services/benefits/dental/dental-care-plan.html",
+    "good_to_know": "Eligibility depends on several criteria, including access to other dental coverage.",
+    "last_verified": "2026-09-26"
   }
 ]
