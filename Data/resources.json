@@ -757,5 +757,115 @@
     "link": "https://www.fbcwall.com/",
     "good_to_know": "Check first-visit pricing, waiver requirements and the drop-in schedule.",
     "last_verified": "2026-09-26"
+  },
+  {
+    "id": "avalon-downtown",
+    "name": "Avalon SalonSpa — Downtown",
+    "category": "daily-life",
+    "description": "Downtown hair salon offering cuts and colour, with spa services available.",
+    "address": "318 Brunswick St, Fredericton",
+    "hours": "Mon and Fri 9 a.m.–5 p.m.; Tue–Thu 9 a.m.–9 p.m.; Sat 9 a.m.–3 p.m.",
+    "link": "https://avalonspa.com/contact",
+    "good_to_know": "Call 506-472-1772 or book ahead; Avalon also has Northside and Uptown locations.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "salon-791",
+    "name": "Salon 791",
+    "category": "daily-life",
+    "description": "Northside salon offering haircuts and colour, nails and other beauty services.",
+    "address": "791 St. Marys St, Fredericton",
+    "hours": "Mon 10 a.m.–4 p.m.; Tue 8:30 a.m.–6 p.m.; Wed–Thu 8:30 a.m.–8 p.m.; Fri 8:30 a.m.–4 p.m.; Sat 10 a.m.–4 p.m.",
+    "link": "https://salon791.ca/contact",
+    "good_to_know": "Call 506-206-1500 for appointments or service details; walk-ins may be available.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "mark-hayward-hair",
+    "name": "Mark Hayward Hair",
+    "category": "daily-life",
+    "description": "Hair studio with cuts, colour and beard trims, using hair-length-based pricing.",
+    "address": "640 Prospect St, Suite 109, Fredericton",
+    "hours": "By appointment; check booking page",
+    "link": "https://markhayward.hair/services/",
+    "good_to_know": "Services are for adults 18 and older; check the site for payment methods and current prices.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "royal-barbershop-downtown",
+    "name": "The Royal Barbershop — Downtown",
+    "category": "daily-life",
+    "description": "Downtown barbershop for haircuts, beard trims and hot towel shaves.",
+    "address": "530 Queen St, Fredericton",
+    "hours": "Call or book to confirm hours",
+    "link": "https://royalbarbershop.ca/contact-us/",
+    "good_to_know": "Call 506-206-6680; a second location is at 69 Cityview Dr on the Northside.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "tip-top-barbershop",
+    "name": "Tip Top Barber Shop",
+    "category": "daily-life",
+    "description": "Downtown barbershop offering haircuts and online appointments.",
+    "address": "397 King St, Fredericton",
+    "hours": "Mon–Fri 9:30 a.m.–7 p.m.; Sat 9:30 a.m.–6 p.m.",
+    "link": "https://www.tiptopbarbershop.net/",
+    "good_to_know": "Call 506-206-5150 or book online; confirm holiday hours.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "spa-654-club",
+    "name": "The Spa 654 Club",
+    "category": "daily-life",
+    "description": "Fredericton spa offering facials, relaxation and massage services.",
+    "address": "654 Bishop Dr, Fredericton",
+    "hours": "Tue–Sat; confirm appointment times",
+    "link": "https://www.thespa654club.com/",
+    "good_to_know": "Call 506-474-1772 for current services, prices and bookings.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "rosieskin-spa",
+    "name": "RosieSKIN Salon & Spa",
+    "category": "daily-life",
+    "description": "Boutique spa offering facials, relaxation treatments, manicures and pedicures.",
+    "address": "693 Golf Club Rd, Fredericton",
+    "hours": "Mon–Fri 10 a.m.–9 p.m.; Sat 10 a.m.–5 p.m.",
+    "link": "https://www.rosieskinspa.com/",
+    "good_to_know": "Call 506-262-5855 or book ahead; confirm the service and price.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "nails-by-phong",
+    "name": "Nails By Phong",
+    "category": "daily-life",
+    "description": "Nail studio offering manicures, pedicures, gel and acrylic sets.",
+    "address": "10 Trinity Ave, Unit G203, Fredericton",
+    "hours": "Call to confirm hours",
+    "link": "https://www.nailsbyphong.ca/",
+    "good_to_know": "Call 506-429-6999 for appointments and current prices.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "lm-glamour-nails",
+    "name": "LM Glamour Nails",
+    "category": "daily-life",
+    "description": "Nail salon offering manicures, pedicures and custom nail art.",
+    "address": "138B Dundonald St, Fredericton",
+    "hours": "Check booking page for current hours",
+    "link": "https://lmglamournailsfredericton.com/",
+    "good_to_know": "Call 506-470-6862 or book online; confirm pricing for detailed art.",
+    "last_verified": "2026-09-26"
+  },
+  {
+    "id": "the-ten-spot",
+    "name": "THE TEN SPOT — Fredericton",
+    "category": "daily-life",
+    "description": "Downtown beauty bar offering manicures, pedicures and other personal-care services.",
+    "address": "343 Queen St, Suite 101A, Fredericton",
+    "hours": "Mon–Tue 10 a.m.–6 p.m.; Wed–Fri 10 a.m.–8 p.m.; Sat–Sun 10 a.m.–6 p.m.",
+    "link": "https://thetenspot.com/fredericton/",
+    "good_to_know": "Call 506-454-1717 or book online; check service availability and prices.",
+    "last_verified": "2026-09-26"
   }
 ]
