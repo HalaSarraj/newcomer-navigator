@@ -1,0 +1,90 @@
+[
+  {
+    "id": "uride",
+    "name": "Uride",
+    "category": "transport",
+    "description": "PLACEHOLDER — Fredericton's ride-hailing app. Uber does not operate here — this is the equivalent.",
+    "address": "App only",
+    "hours": "call to confirm",
+    "link": "https://www.uride.co/",
+    "good_to_know": "Download before you need it.",
+    "last_verified": "placeholder"
+  },
+  {
+    "id": "fredericton-transit",
+    "name": "Fredericton Transit",
+    "category": "transport",
+    "description": "PLACEHOLDER — the city bus system. Routes, fares and schedules.",
+    "address": "TBD",
+    "hours": "call to confirm",
+    "link": "https://www.fredericton.ca/",
+    "good_to_know": "Buses stop running earlier than you might expect.",
+    "last_verified": "placeholder"
+  },
+  {
+    "id": "phone-plan",
+    "name": "Getting a phone plan and SIM card",
+    "category": "first-week",
+    "description": "PLACEHOLDER — where to get a Canadian phone number, SIM card and mobile plan.",
+    "address": "TBD",
+    "hours": "call to confirm",
+    "link": "https://www2.gnb.ca/",
+    "good_to_know": "Placeholder entry — Person B replaces this.",
+    "last_verified": "placeholder"
+  },
+  {
+    "id": "bank-account",
+    "name": "Opening a bank account",
+    "category": "first-week",
+    "description": "PLACEHOLDER — how to open a bank account when you first arrive.",
+    "address": "TBD",
+    "hours": "call to confirm",
+    "link": "https://www2.gnb.ca/",
+    "good_to_know": "You can often open an account before you have a SIN.",
+    "last_verified": "placeholder"
+  },
+  {
+    "id": "grocery-store",
+    "name": "Grocery store",
+    "category": "daily-life",
+    "description": "PLACEHOLDER — a grocery store for food and household supplies.",
+    "address": "TBD",
+    "hours": "call to confirm",
+    "link": "https://www.fredericton.ca/",
+    "good_to_know": "Plan the trip around the last bus.",
+    "last_verified": "placeholder"
+  },
+  {
+    "id": "mcaf",
+    "name": "Multicultural Association of Fredericton",
+    "category": "social",
+    "description": "PLACEHOLDER — settlement services and free events for newcomers.",
+    "address": "TBD",
+    "hours": "call to confirm",
+    "link": "https://www.mcaf.nb.ca/",
+    "good_to_know": "Free newcomer events most people don't know about.",
+    "last_verified": "placeholder"
+  },
+  {
+    "id": "nb-medicare",
+    "name": "NB Medicare",
+    "category": "health",
+    "description": "PLACEHOLDER — New Brunswick's public health insurance. Who is eligible and how to apply.",
+    "address": "TBD",
+    "hours": "call to confirm",
+    "link": "https://www2.gnb.ca/",
+    "good_to_know": "International students are generally not covered — verify against the official source.",
+    "last_verified": "placeholder"
+  },
+  {
+    "id": "walk-in-clinic",
+    "name": "Walk-in clinic",
+    "category": "health",
+    "description": "PLACEHOLDER — where to see a doctor without an appointment if you have no family doctor.",
+    "address": "TBD",
+    "hours": "call to confirm",
+    "link": "https://www2.gnb.ca/",
+    "good_to_know": "Placeholder entry — Person B replaces this.",
+    "last_verified": "placeholder"
+  }
+]
