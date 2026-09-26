@@ -1,5 +1,5 @@
 import type { NextRequest } from "next/server";
-import { keywordSearchFromFile, type ResourcesResponse } from "@/lib/resources";
+import { searchResources } from "@/lib/resources";
 
 const MAX_QUERY_LENGTH = 200;
 
@@ -12,9 +12,5 @@ export async function GET(request: NextRequest) {
     return Response.json({ error: "Missing q" }, { status: 400 });
   }
 
-  const body: ResourcesResponse = {
-    resources: keywordSearchFromFile(q.slice(0, MAX_QUERY_LENGTH)),
-    source: "fallback",
-  };
-  return Response.json(body);
+  return Response.json(await searchResources(q.slice(0, MAX_QUERY_LENGTH)));
 }

@@ -1,11 +1,5 @@
 import type { NextRequest } from "next/server";
-import {
-  CATEGORIES,
-  getAllFromFile,
-  getByCategoryFromFile,
-  isCategory,
-  type ResourcesResponse,
-} from "@/lib/resources";
+import { CATEGORIES, getResources, isCategory } from "@/lib/resources";
 
 // GET /api/resources?category=transport  → that category's resources
 // GET /api/resources                     → every resource (used by the saved view)
@@ -19,9 +13,5 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  const body: ResourcesResponse = {
-    resources: category ? getByCategoryFromFile(category) : getAllFromFile(),
-    source: "fallback",
-  };
-  return Response.json(body);
+  return Response.json(await getResources(category ?? undefined));
 }
