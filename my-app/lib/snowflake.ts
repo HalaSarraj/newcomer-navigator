@@ -32,13 +32,23 @@ export function isSnowflakeConfigured(): boolean {
   );
 }
 
+// Accepts the account as "ORG-ACCOUNT" or pasted as a full URL/hostname; the
+// driver appends ".snowflakecomputing.com" itself, so strip it here.
+function accountIdentifier(value: string): string {
+  return value
+    .trim()
+    .replace(/^https?:\/\//, "")
+    .replace(/\/.*$/, "")
+    .replace(/\.snowflakecomputing\.com$/i, "");
+}
+
 // One connection per server instance, reused across requests while it is warm.
 let connection: Promise<Connection> | null = null;
 
 function getConnection(): Promise<Connection> {
   if (!connection) {
     const conn = snowflake.createConnection({
-      account: process.env.SNOWFLAKE_ACCOUNT!,
+      account: accountIdentifier(process.env.SNOWFLAKE_ACCOUNT!),
       username: process.env.SNOWFLAKE_USER!,
       warehouse: process.env.SNOWFLAKE_WAREHOUSE,
       database: process.env.SNOWFLAKE_DATABASE ?? "NEWCOMER_NAVIGATOR",
