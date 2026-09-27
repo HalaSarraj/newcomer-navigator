@@ -15,6 +15,8 @@ export type Resource = {
   id: string;
   name: string;
   category: Category;
+  // Slug such as "taxis-and-cabs"; "" when a row has none.
+  subcategory: string;
   description: string;
   address: string;
   hours: string;
@@ -32,7 +34,16 @@ export type ResourcesResponse = {
   source: Source;
 };
 
-const resources = data as Resource[];
+// Older copies of resources.json have no subcategory; default it to "".
+const resources: Resource[] = (data as Partial<Resource>[]).map((r) => ({
+  ...(r as Resource),
+  subcategory: r.subcategory ?? "",
+}));
+
+// Subcategory slugs are lower-case words joined by hyphens.
+export function isSubcategory(value: string | null): value is string {
+  return value !== null && /^[a-z0-9-]{1,60}$/.test(value);
+}
 
 export function isCategory(value: string | null): value is Category {
   return CATEGORIES.includes(value as Category);
@@ -42,8 +53,10 @@ export function getAllFromFile(): Resource[] {
   return resources;
 }
 
-export function getByCategoryFromFile(category: Category): Resource[] {
-  return resources.filter((r) => r.category === category);
+export function getByCategoryFromFile(category: Category, subcategory?: string): Resource[] {
+  return resources.filter(
+    (r) => r.category === category && (!subcategory || r.subcategory === subcategory),
+  );
 }
 
 const STOPWORDS = new Set([
@@ -65,6 +78,7 @@ const SEARCH_FIELDS: [keyof Resource, number][] = [
   ["name", 3],
   ["description", 1],
   ["good_to_know", 1],
+  ["subcategory", 1],
 ];
 
 // Crude keyword fallback for when Snowflake is unavailable. Scores each resource
@@ -78,7 +92,7 @@ export function keywordSearchFromFile(query: string, limit = 3): Resource[] {
     .map((r) => {
       let score = 0;
       for (const [field, weight] of SEARCH_FIELDS) {
-        const words = new Set(tokenize(r[field]));
+        const words = new Set(tokenize(r[field] ?? ""));
         for (const term of terms) {
           if (words.has(term)) score += weight;
         }
@@ -100,8 +114,8 @@ const TABLE = "NEWCOMER_NAVIGATOR.PUBLIC.RESOURCES";
 // Caps the number of keywords (and so bound parameters) per search.
 const MAX_TERMS = 8;
 
-const COLUMNS = `id, name, category, description, address, hours, link,
-  good_to_know, TO_VARCHAR(last_verified) AS last_verified`;
+const COLUMNS = `id, name, category, subcategory, description, address, hours,
+  link, good_to_know, TO_VARCHAR(last_verified) AS last_verified`;
 
 // Snowflake returns column names in upper case.
 type Row = Record<string, unknown>;
@@ -112,6 +126,7 @@ function fromRow(row: Row): Resource {
     id: get("id"),
     name: get("name"),
     category: get("category") as Category,
+    subcategory: get("subcategory"),
     description: get("description"),
     address: get("address"),
     hours: get("hours"),
@@ -134,18 +149,23 @@ async function withFallback(
   }
 }
 
-export function getResources(category?: Category): Promise<ResourcesResponse> {
+export function getResources(
+  category?: Category,
+  subcategory?: string,
+): Promise<ResourcesResponse> {
   return withFallback(
     async () => {
       const rows = category
         ? await query<Row>(
-            `SELECT ${COLUMNS} FROM ${TABLE} WHERE category = ? ORDER BY name`,
-            [category],
+            `SELECT ${COLUMNS} FROM ${TABLE}
+             WHERE category = ? AND (? IS NULL OR subcategory = ?)
+             ORDER BY subcategory, name`,
+            [category, subcategory ?? null, subcategory ?? null],
           )
-        : await query<Row>(`SELECT ${COLUMNS} FROM ${TABLE} ORDER BY name`);
+        : await query<Row>(`SELECT ${COLUMNS} FROM ${TABLE} ORDER BY category, subcategory, name`);
       return rows.map(fromRow);
     },
-    () => (category ? getByCategoryFromFile(category) : getAllFromFile()),
+    () => (category ? getByCategoryFromFile(category, subcategory) : getAllFromFile()),
   );
 }
 

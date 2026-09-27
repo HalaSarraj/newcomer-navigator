@@ -2,67 +2,46 @@
 
 import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 
+import type { Category as CategorySlug, Resource, ResourcesResponse, Source } from "@/lib/resources";
+
 type Category = "First Week" | "Daily Life" | "Transport" | "Social" | "Health";
-type Resource = {
-  id: string;
-  name: string;
-  category: Category;
-  subcategory: string;
-  description: string;
-  address: string;
-  hours: string;
-  url: string;
-  keywords: string;
-  placeholder?: boolean;
-};
 
 const categories: Category[] = ["First Week", "Daily Life", "Transport", "Social", "Health"];
-const subcategories: Record<Category, string[]> = {
-  "First Week": ["Phone plans", "Internet", "Banking", "Settlement & paperwork"],
-  "Daily Life": ["Food", "Groceries", "Self care"],
-  Transport: ["Fredericton public transit", "Taxis & cabs", "Ride apps"],
-  Social: ["Interest clubs", "Nightlife", "Workshops & activities"],
-  Health: ["Coverage plans", "Hospitals", "Pharmacies"],
+const categorySlugs: Record<Category, CategorySlug> = {
+  "First Week": "first-week", "Daily Life": "daily-life", Transport: "transport", Social: "social", Health: "health-insurance",
 };
-const resources: Resource[] = [
-  { id: "bell-mobile", name: "Bell Aliant mobile plans", category: "First Week", subcategory: "Phone plans", description: "Compare current mobile plans and device options at Bell Aliant’s Fredericton store.", address: "1381 Regent St, Fredericton, NB", hours: "Confirm current store hours before visiting", url: "https://storelocator.bell.ca/bellca/en/NB/Fredericton/Bell-Aliant-Regent-Mall/BA297", keywords: "phone plan mobile cell data sim newcomer" },
-  { id: "rogers-mobile", name: "Rogers mobile plans", category: "First Week", subcategory: "Phone plans", description: "Explore wireless plans and devices at the Regent Mall store.", address: "1381 Regent St, Unit 209, Fredericton, NB", hours: "Confirm current store hours before visiting", url: "https://www.rogers.com/stores/fredericton/regent-mall", keywords: "phone plan mobile cell data sim newcomer" },
-  { id: "bell-internet", name: "Bell Fibe internet", category: "First Week", subcategory: "Internet", description: "Check which home internet plans are available at your Fredericton address.", address: "Availability varies by street address", hours: "Check current plans and pricing online", url: "https://storelocator.bell.ca/bellca/en/NB/Fredericton.html", keywords: "internet wifi home broadband bell aliant" },
-  { id: "rogers-internet", name: "Rogers home internet", category: "First Week", subcategory: "Internet", description: "Check Rogers internet coverage and current plans for your address.", address: "Availability varies by street address", hours: "Check current plans and pricing online", url: "https://www.rogers.com/internet/new-brunswick", keywords: "internet wifi home broadband rogers" },
-  { id: "rbc", name: "RBC Royal Bank", category: "First Week", subcategory: "Banking", description: "Find branch services, newcomer banking information, and appointment options.", address: "504 Queen St, Fredericton, NB", hours: "Confirm current branch hours online", url: "https://maps.rbcroyalbank.com/NB-FREDERICTON-branch-884/", keywords: "bank banking account newcomer money debit credit" },
-  { id: "bmo", name: "BMO Bank of Montreal", category: "First Week", subcategory: "Banking", description: "Compare personal banking options and locate Fredericton branches.", address: "Fredericton branch locator", hours: "Check current hours for your branch", url: "https://branches.bmo.com/nb/fredericton/", keywords: "bank banking account newcomer money debit credit" },
-  { id: "cibc", name: "CIBC Banking Centres", category: "First Week", subcategory: "Banking", description: "Search CIBC branches and ATMs near Fredericton.", address: "Fredericton branch locator", hours: "Check current hours for your branch", url: "https://locations.cibc.com/search/nb/fredericton", keywords: "bank banking account newcomer money debit credit" },
-  { id: "service-nb", name: "Service New Brunswick", category: "First Week", subcategory: "Settlement & paperwork", description: "Get your driver’s licence and health card in one place.", address: "435 Brookside Dr, Fredericton, NB", hours: "Mon–Fri, 8:30 am–5:00 pm", url: "https://www2.snb.ca/", keywords: "licence license health card government id first week" },
-  { id: "settlement", name: "MCAF — Multicultural Association of Fredericton", category: "First Week", subcategory: "Settlement & paperwork", description: "Settlement help, language classes, and community connections.", address: "28 Saunders St, Fredericton, NB", hours: "Mon–Fri, 8:30 am–4:30 pm", url: "https://mcaf.nb.ca/", keywords: "newcomer settlement immigration language first week" },
+const categoryOf = (resource: Resource) => categories.find((category) => categorySlugs[category] === resource.category);
 
-  { id: "fredericton-food", name: "Fredericton restaurants & cafés", category: "Daily Life", subcategory: "Food", description: "Browse local dining spots, cafés, and food experiences around the city.", address: "Fredericton Capital Region", hours: "Check each business for current hours", url: "https://www.frederictoncapitalregion.ca/capital-region/fredericton", keywords: "restaurants cafe coffee bakery eat food dining" },
-  { id: "sobeys", name: "Sobeys Fredericton", category: "Daily Life", subcategory: "Groceries", description: "Grocery shopping with a wide range of everyday essentials.", address: "1180 Prospect St, Fredericton, NB", hours: "Check current store hours online", url: "https://www.sobeys.com/store-locator", keywords: "groceries food shopping supermarket" },
-  { id: "atlantic-superstore", name: "Atlantic Superstore", category: "Daily Life", subcategory: "Groceries", description: "Find a local grocery store and check current services and hours.", address: "Fredericton store locator", hours: "Check current store hours online", url: "https://www.atlanticsuperstore.ca/", keywords: "groceries food shopping supermarket" },
-  { id: "hair-salons", name: "Hair salons & barbers", category: "Daily Life", subcategory: "Self care", description: "Browse Fredericton hair and barber businesses, then contact a provider to book.", address: "Fredericton business directory", hours: "Appointments and hours vary by provider", url: "https://businessfrednorth.com/beauty/", keywords: "self care hair salon barber haircut appointment" },
-  { id: "nails-spas", name: "Nails, skincare & spas", category: "Daily Life", subcategory: "Self care", description: "Explore local nail, esthetics, and spa listings for services and appointments.", address: "Fredericton business directory", hours: "Appointments and hours vary by provider", url: "https://businessfrednorth.com/beauty/", keywords: "self care nails manicure pedicure esthetics spa appointment" },
+// Subcategory slugs from the database, in the order each category shows them.
+// Any slug not listed here still appears, after these; "other" always goes last.
+const subcategoryOrder: Record<Category, string[]> = {
+  "First Week": ["phone-plans", "internet", "banking", "paperwork", "settlement"],
+  "Daily Life": ["food", "grocery", "self-care"],
+  Transport: ["fredericton-public-transit", "taxis-and-cabs", "ride-apps"],
+  Social: ["clubs", "interests", "nightlife", "workshops-and-activities"],
+  Health: ["coverage-plans", "hospitals", "pharmacies"],
+};
+const subcategoryLabels: Record<string, string> = {
+  "phone-plans": "Phone plans", "self-care": "Self care", grocery: "Groceries",
+  "fredericton-public-transit": "Fredericton public transit", "taxis-and-cabs": "Taxis & cabs", "ride-apps": "Ride apps",
+  "workshops-and-activities": "Workshops & activities", "coverage-plans": "Coverage plans",
+};
+const subcategoryLabel = (slug: string) => {
+  if (subcategoryLabels[slug]) return subcategoryLabels[slug];
+  const words = slug.replace(/-/g, " ");
+  return words.charAt(0).toUpperCase() + words.slice(1);
+};
+const subcategoriesFor = (category: Category, items: Resource[]) => {
+  const present = [...new Set(items.map((resource) => resource.subcategory || "other"))];
+  const rank = (slug: string) => slug === "other" ? Infinity : subcategoryOrder[category].indexOf(slug) === -1 ? subcategoryOrder[category].length : subcategoryOrder[category].indexOf(slug);
+  return present.sort((a, b) => rank(a) - rank(b) || a.localeCompare(b));
+};
 
-  { id: "transit", name: "Fredericton Transit", category: "Transport", subcategory: "Fredericton public transit", description: "Find local bus routes, fares, and schedules.", address: "470 Smythe St, Fredericton, NB", hours: "Routes run daily; check current schedules", url: "https://www.fredericton.ca/resident-services/fredericton-transit", keywords: "bus public transit route schedule transport" },
-  { id: "checker-cab", name: "Checker Cab", category: "Transport", subcategory: "Taxis & cabs", description: "Call or book a local cab. The company lists 24/7 service on its contact page.", address: "3 Homestead Dr, Fredericton, NB", hours: "24 hours a day, 7 days a week", url: "https://www.checkercab.ca/contact-us", keywords: "taxi cab taxi phone ride airport transport" },
-  { id: "uride", name: "Uride", category: "Transport", subcategory: "Ride apps", description: "Request an on-demand ride through the Uride app in Fredericton.", address: "App-based service in Fredericton", hours: "Check the app for availability", url: "https://www.uride.co/", keywords: "uber ride taxi rideshare get around app" },
-
-  { id: "mcaf-social", name: "Multicultural Association of Fredericton", category: "Social", subcategory: "Interest clubs", description: "Meet people through local events and community programs.", address: "28 Saunders St, Fredericton, NB", hours: "Check current program listings", url: "https://mcaf.nb.ca/", keywords: "community events social meet people language support" },
-  { id: "community-groups", name: "Clubs & community groups", category: "Social", subcategory: "Interest clubs", description: "Explore city-listed sports, recreation, and culture groups to find a shared interest.", address: "Fredericton community directory", hours: "Contact groups for meeting times", url: "https://www.fredericton.ca/recreation-leisure/programs-activities/community-group-directory", keywords: "clubs groups hobbies sports recreation join meet people" },
-  { id: "nightlife", name: "Drinks & nightlife", category: "Social", subcategory: "Nightlife", description: "Browse local pubs, lounges, live music venues, and nightlife listings.", address: "Fredericton Capital Region", hours: "Check each venue for current hours and events", url: "https://www.frederictoncapitalregion.ca/eat-drink/drinks-nightlife", keywords: "nightlife bars pubs clubs dancing live music" },
-  { id: "city-events", name: "Workshops & events around town", category: "Social", subcategory: "Workshops & activities", description: "Browse the City of Fredericton event calendar for current activities and workshops.", address: "Fredericton", hours: "Event times vary; check each listing", url: "https://www.fredericton.ca/community-culture/calendar-events", keywords: "workshops activities events calendar around town" },
-  { id: "fredrec", name: "Recreation programs & activities", category: "Social", subcategory: "Workshops & activities", description: "Search city programs, seasonal activities, and community recreation options.", address: "Fredericton recreation listings", hours: "Program times vary by activity", url: "https://www.fredericton.ca/recreation-leisure/programs-activities", keywords: "workshops classes activities recreation programs" },
-
-  { id: "medicare", name: "New Brunswick Medicare", category: "Health", subcategory: "Coverage plans", description: "Review provincial Medicare eligibility and application steps on the official site.", address: "New Brunswick coverage information", hours: "Application processing times can change", url: "https://www2.gnb.ca/content/gnb/en/departments/health/Medicare.html", keywords: "health insurance medicare health card coverage eligibility" },
-  { id: "guardme-unb", name: "UNB international student insurance (guard.me)", category: "Health", subcategory: "Coverage plans", description: "UNB explains its guard.me plan, enrolment, eligibility, and how it relates to Medicare. Check your own school’s plan rules.", address: "UNB Fredericton student information", hours: "Plan dates and fees vary by term", url: "https://www.unb.ca/finance/financial-services/health-insurance.html", keywords: "health insurance guard.me guardme international student university" },
-  { id: "horizon", name: "Horizon Health Network", category: "Health", subcategory: "Hospitals", description: "Find health services, clinics, and hospital information for the Fredericton region.", address: "Fredericton region, New Brunswick", hours: "Check the facility page for service hours", url: "https://horizonnb.ca/", keywords: "doctor health urgent care hospital clinic medical" },
-  { id: "dech", name: "Dr. Everett Chalmers Regional Hospital", category: "Health", subcategory: "Hospitals", description: "Fredericton’s regional hospital. Its emergency department is listed as open 24/7 by Horizon.", address: "700 Priestman St, Fredericton, NB", hours: "Hospital and Emergency Department: 24/7", url: "https://horizonnb.ca/facilities/dr-everett-chalmers-regional-hospital/", keywords: "hospital emergency emergency room health Fredericton" },
-  { id: "oromocto-hospital", name: "Oromocto Public Hospital", category: "Health", subcategory: "Hospitals", description: "A nearby community hospital serving Oromocto and surrounding communities.", address: "103 Winnebago St, Oromocto, NB", hours: "Emergency Department: 8 am–4 pm daily; confirm current details", url: "https://horizonnb.ca/facilities/oromocto-public-hospital/", keywords: "hospital emergency health Oromocto Fredericton" },
-  { id: "hospital-placeholder-1", name: "", category: "Health", subcategory: "Hospitals", description: "", address: "", hours: "", url: "", keywords: "", placeholder: true },
-  { id: "hospital-placeholder-2", name: "", category: "Health", subcategory: "Hospitals", description: "", address: "", hours: "", url: "", keywords: "", placeholder: true },
-  { id: "pharmacy-directory", name: "Find a pharmacy", category: "Health", subcategory: "Pharmacies", description: "Search the New Brunswick College of Pharmacists’ public register for active pharmacies.", address: "Fredericton and New Brunswick", hours: "Contact a pharmacy to confirm hours and services", url: "https://nbcp-opnb.alinityapp.com/client/corporationdirectory", keywords: "pharmacy pharmacies prescription drug medicine" },
-  { id: "lawtons-brookside", name: "Lawtons Drugs at Brookside Mall", category: "Health", subcategory: "Pharmacies", description: "Local pharmacy, prescriptions, and store services at Brookside Mall.", address: "435 Brookside Dr, Unit 5, Fredericton, NB", hours: "Check the store page for current hours", url: "https://lawtons.ca/stores/brookside-mall/", keywords: "pharmacy prescriptions drug medicine Brookside" },
-];
-
-const starterSaved = ["service-nb", "sobeys", "transit", "mcaf-social", "horizon"];
+async function fetchResources(url: string): Promise<ResourcesResponse> {
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`Request failed: ${response.status}`);
+  return response.json() as Promise<ResourcesResponse>;
+}
 
 function Icon({ name, size = 18 }: { name: "heart" | "bookmark" | "home" | "bag" | "bus" | "people" | "health" | "arrow" | "chevron-left" | "chevron-right" | "search" | "menu" | "close"; size?: number }) {
   const common = { width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, "aria-hidden": true as const };
@@ -89,9 +68,6 @@ const categoryIcons: Record<Category, "home" | "bag" | "bus" | "people" | "healt
 };
 
 function ResourceCard({ resource, saved, onToggle }: { resource: Resource; saved: boolean; onToggle: () => void }) {
-  if (resource.placeholder) {
-    return <article className="resource-card resource-card-placeholder" aria-label="Empty hospital placeholder card" />;
-  }
   return (
     <article className="resource-card">
       <div className="card-title-row">
@@ -101,8 +77,14 @@ function ResourceCard({ resource, saved, onToggle }: { resource: Resource; saved
         </button>
       </div>
       <p className="card-description">{resource.description}</p>
-      <div className="card-details"><p>{resource.address}</p><p>{resource.hours}</p></div>
-      <a className="website-link" href={resource.url} target="_blank" rel="noreferrer">Visit website <Icon name="arrow" size={14} /></a>
+      <div className="card-details">
+        {resource.subcategory && <p>{subcategoryLabel(resource.subcategory)}</p>}
+        <p>{resource.address}</p>
+        <p>{resource.hours}</p>
+        {resource.good_to_know && <p>{resource.good_to_know}</p>}
+        {resource.last_verified && <p>Last verified {resource.last_verified}</p>}
+      </div>
+      <a className="website-link" href={resource.link} target="_blank" rel="noreferrer">Visit website <Icon name="arrow" size={14} /></a>
     </article>
   );
 }
@@ -157,9 +139,15 @@ function ResourceCarousel({ items, savedIds, toggleSaved }: { items: Resource[];
 
 export default function Home() {
   const [section, setSection] = useState<string>("Saved");
-  const [savedIds, setSavedIds] = useState<string[]>(starterSaved);
+  const [savedIds, setSavedIds] = useState<string[]>([]);
   const [query, setQuery] = useState("");
   const [asked, setAsked] = useState(false);
+  const [resources, setResources] = useState<Resource[]>([]);
+  const [searchResults, setSearchResults] = useState<Resource[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searching, setSearching] = useState(false);
+  const [loadError, setLoadError] = useState(false);
+  const [source, setSource] = useState<Source>("snowflake");
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   useEffect(() => {
@@ -167,6 +155,14 @@ export default function Home() {
     if (stored) {
       try { setSavedIds(JSON.parse(stored) as string[]); } catch { window.localStorage.removeItem("freddybuddy-saved"); }
     }
+  }, []);
+
+  // One request loads every resource; the saved and category views filter it.
+  useEffect(() => {
+    fetchResources("/api/resources")
+      .then((data) => { setResources(data.resources); setSource(data.source); })
+      .catch(() => setLoadError(true))
+      .finally(() => setLoading(false));
   }, []);
 
   const toggleSaved = (id: string) => setSavedIds((current) => {
@@ -177,24 +173,19 @@ export default function Home() {
 
   const shownResources = useMemo(() => {
     if (section === "Saved") return resources.filter((resource) => savedIds.includes(resource.id));
-    if (categories.includes(section as Category)) return resources.filter((resource) => resource.category === section);
-    if (asked && query.trim()) {
-      const words = query.toLowerCase().split(/\s+/).filter((word) => word.length > 2);
-      const matches = resources.filter((resource) => words.some((word) => `${resource.name} ${resource.description} ${resource.category} ${resource.keywords}`.toLowerCase().includes(word)));
-      return matches.length ? matches : resources.filter((resource) => resource.category === "First Week");
-    }
+    if (categories.includes(section as Category)) return resources.filter((resource) => categoryOf(resource) === section);
+    if (asked) return searchResults;
     return resources;
-  }, [asked, query, savedIds, section]);
+  }, [asked, resources, savedIds, searchResults, section]);
 
   const grouped = section === "Saved";
   const renderSubcategories = (category: Category, items: Resource[], inSaved = false) => (
     <div className={`saved-groups${inSaved ? " saved-subgroups" : ""}`}>
-      {subcategories[category].map((subcategory) => {
-        const subcategoryItems = items.filter((resource) => resource.subcategory === subcategory);
-        if (!subcategoryItems.length) return null;
+      {subcategoriesFor(category, items).map((subcategory) => {
+        const subcategoryItems = items.filter((resource) => (resource.subcategory || "other") === subcategory);
         return (
           <section className="resource-section subcategory-section" key={subcategory}>
-            <h3>{subcategory}</h3>
+            <h3>{subcategoryLabel(subcategory)}</h3>
             <ResourceCarousel items={subcategoryItems} savedIds={savedIds} toggleSaved={toggleSaved} />
           </section>
         );
@@ -203,10 +194,17 @@ export default function Home() {
   );
   const submitQuestion = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!query.trim()) return;
+    const question = query.trim();
+    if (!question) return;
     setSection("Ask");
     setAsked(true);
     setMobileNavOpen(false);
+    setSearching(true);
+    setSearchResults([]);
+    fetchResources(`/api/search?q=${encodeURIComponent(question)}`)
+      .then((data) => { setSearchResults(data.resources); setSource(data.source); })
+      .catch(() => setLoadError(true))
+      .finally(() => setSearching(false));
   };
 
   const selectSection = (next: string) => {
@@ -244,14 +242,19 @@ export default function Home() {
               <button type="submit">Search</button>
             </form>
           </header>
-          {grouped ? <div className="saved-groups">
+          {source === "fallback" && <p className="empty-note">Running in offline mode — showing our saved copy of these resources.</p>}
+          {loadError ? <p className="empty-note">We couldn’t load resources. Check your connection and try again.</p>
+          : loading || searching ? <p className="empty-note">{searching ? "Searching…" : "Loading resources…"}</p>
+          : <>
+  {grouped ? <div className="saved-groups">
             {categories.map((category) => {
-              const items = shownResources.filter((resource) => resource.category === category);
+              const items = shownResources.filter((resource) => categoryOf(resource) === category);
               if (!items.length) return null;
               return <section className="resource-section" key={category}><h2>{category}</h2>{renderSubcategories(category, items, true)}</section>;
             })}
             {!shownResources.length && <div className="empty-state"><h2>No saved resources yet</h2><p>Browse a category and select the heart on a resource to keep it here.</p><button className="text-action" onClick={() => selectSection("First Week")}>Browse First Week <span>→</span></button></div>}
-          </div> : categories.includes(section as Category) ? renderSubcategories(section as Category, shownResources) : shownResources.length ? <ResourceCarousel items={shownResources} savedIds={savedIds} toggleSaved={toggleSaved} /> : <p className="empty-note">No matching services found. Try a broader question.</p>}
+          </div> : categories.includes(section as Category) ? renderSubcategories(section as Category, shownResources) : shownResources.length ? <ResourceCarousel items={shownResources} savedIds={savedIds} toggleSaved={toggleSaved} /> : <p className="empty-note">We don’t cover that yet — try browsing a category.</p>}
+          </>}
         </div>
       </main>
     </div>
