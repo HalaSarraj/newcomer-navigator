@@ -1,6 +1,6 @@
-# Newcomer Navigator
+# Freddy Buddy
 
-Newcomer Navigator is a resource guide for people who are new to Fredericton, New Brunswick. It brings practical local information into one place so newcomers can spend less time searching across websites and more time settling in.
+Freddy Buddy is a resource guide for people who are new to Fredericton, New Brunswick. It brings practical local information into one place so newcomers can spend less time searching across websites and more time settling in.
 
 Built at Hack Atlantic 2026.
 
@@ -8,7 +8,7 @@ Built at Hack Atlantic 2026.
 
 🔗 **App link:** [Coming soon]
 
-Once the app is live, this link will take you to Newcomer Navigator.
+Once the app is live, this link will take you to Freddy Buddy.
 
 ## The problem
 
@@ -18,7 +18,7 @@ Answers exist, but they are often scattered across government pages, service web
 
 ## Our solution
 
-Newcomer Navigator organizes Fredericton resources into five areas:
+Freddy Buddy organizes Fredericton resources into five areas:
 
 - **First week:** Important starting tasks, such as identification, banking, and getting connected.
 - **Daily life:** Services and places that help with everyday needs.
@@ -50,4 +50,4 @@ Resource cards point users to the relevant service or information page, where th
 
 ## Why it helps
 
-Newcomer Navigator gives people a starting point when they may not know which services exist in Fredericton. By putting essential tasks, local services, and community opportunities together, it aims to make the move feel more manageable and help newcomers feel connected to their new city.
+Freddy Buddy gives people a starting point when they may not know which services exist in Fredericton. By putting essential tasks, local services, and community opportunities together, it aims to make the move feel more manageable and help newcomers feel connected to their new city.
