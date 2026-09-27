@@ -4,7 +4,10 @@ import snowflake, { type Binds, type Connection } from "snowflake-sdk";
 // filesystem is read-only so it cannot write its default log file anyway.
 snowflake.configure({ logLevel: "OFF" });
 
-const QUERY_TIMEOUT_MS = Number(process.env.SNOWFLAKE_TIMEOUT_MS ?? 4000);
+// A cold login alone can take ~4s, so leave room for it plus the first query.
+const QUERY_TIMEOUT_MS = Number(process.env.SNOWFLAKE_TIMEOUT_MS ?? 8000);
+
+class SnowflakeTimeoutError extends Error {}
 
 // Auth, in order of preference:
 //   SNOWFLAKE_TOKEN        programmatic access token
@@ -72,7 +75,7 @@ function getConnection(): Promise<Connection> {
 function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
   return new Promise((resolve, reject) => {
     const timer = setTimeout(
-      () => reject(new Error(`Snowflake timed out after ${ms}ms`)),
+      () => reject(new SnowflakeTimeoutError(`Snowflake timed out after ${ms}ms`)),
       ms,
     );
     promise.then(
@@ -108,8 +111,10 @@ export async function query<T>(sqlText: string, binds: Binds = []): Promise<T[]>
   try {
     return await withTimeout(run(), QUERY_TIMEOUT_MS);
   } catch (err) {
-    // Drop the connection so the next request starts fresh.
-    connection = null;
+    // On a real error, drop the connection so the next request starts fresh.
+    // On a timeout, keep it: a slow login usually still finishes, and the next
+    // request can reuse it instead of starting another slow login.
+    if (!(err instanceof SnowflakeTimeoutError)) connection = null;
     throw err;
   }
 }
