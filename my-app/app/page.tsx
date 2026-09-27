@@ -64,7 +64,7 @@ const resources: Resource[] = [
 
 const starterSaved = ["service-nb", "sobeys", "transit", "mcaf-social", "horizon"];
 
-function Icon({ name, size = 18 }: { name: "heart" | "bookmark" | "home" | "bag" | "bus" | "people" | "health" | "arrow" | "chevron-left" | "chevron-right" | "search" | "menu" | "close" | "chat"; size?: number }) {
+function Icon({ name, size = 18 }: { name: "heart" | "bookmark" | "home" | "bag" | "bus" | "people" | "health" | "arrow" | "chevron-left" | "chevron-right" | "search" | "menu" | "close"; size?: number }) {
   const common = { width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, "aria-hidden": true as const };
   const paths: Record<string, React.ReactNode> = {
     heart: <path d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z" />,
@@ -80,7 +80,6 @@ function Icon({ name, size = 18 }: { name: "heart" | "bookmark" | "home" | "bag"
     search: <><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></>,
     menu: <><path d="M4 6h16M4 12h16M4 18h16"/></>,
     close: <><path d="m18 6-12 12M6 6l12 12"/></>,
-    chat: <><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H6l-3 2v-5.2A7.5 7.5 0 1 1 20 11.5Z"/><path d="M8 11.5h.01M12 11.5h.01M16 11.5h.01"/></>,
   };
   return <svg {...common}>{paths[name]}</svg>;
 }
@@ -162,16 +161,6 @@ export default function Home() {
   const [query, setQuery] = useState("");
   const [asked, setAsked] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
-  const [chatOpen, setChatOpen] = useState(false);
-  const chatDialogRef = useRef<HTMLDialogElement>(null);
-
-  useEffect(() => {
-    const dialog = chatDialogRef.current;
-    if (chatOpen && dialog && !dialog.open) {
-      dialog.showModal();
-      dialog.querySelector<HTMLInputElement>("input")?.focus();
-    }
-  }, [chatOpen]);
 
   useEffect(() => {
     const stored = window.localStorage.getItem("freddybuddy-saved");
@@ -218,12 +207,6 @@ export default function Home() {
     setSection("Ask");
     setAsked(true);
     setMobileNavOpen(false);
-    setChatOpen(false);
-  };
-
-  const closeChat = () => {
-    chatDialogRef.current?.close();
-    setChatOpen(false);
   };
 
   const selectSection = (next: string) => {
@@ -237,10 +220,10 @@ export default function Home() {
     <div className="app-shell">
       <header className="mobile-header">
         <button className="menu-button" onClick={() => setMobileNavOpen(!mobileNavOpen)} aria-label={mobileNavOpen ? "Close navigation" : "Open navigation"}><Icon name={mobileNavOpen ? "close" : "menu"} /></button>
-        <button className="brand mobile-brand" onClick={() => selectSection("Saved")}><span className="brand-mark">F</span><span className="brand-copy"><strong>FreddyBuddy</strong><small>Fredericton</small></span></button>
+        <button className="brand mobile-brand" onClick={() => selectSection("Saved")}><span className="brand-copy"><strong>FreddyBuddy</strong></span></button>
       </header>
       <aside className={`sidebar${mobileNavOpen ? " sidebar-open" : ""}`}>
-        <button className="brand desktop-brand" onClick={() => selectSection("Saved")}><span className="brand-mark">F</span><span className="brand-copy"><strong>FreddyBuddy</strong><small>Fredericton</small></span></button>
+        <button className="brand desktop-brand" onClick={() => selectSection("Saved")}><span className="brand-copy"><strong>FreddyBuddy</strong></span></button>
         <nav className="primary-nav" aria-label="Main navigation">
           <button className={`nav-item${section === "Saved" ? " active" : ""}`} onClick={() => selectSection("Saved")}><Icon name="bookmark" /><span>Saved</span></button>
           <span className="nav-divider" />
@@ -252,7 +235,15 @@ export default function Home() {
 
       <main className="main-content">
         <div className="content-inner">
-          <header className="page-header"><div><p className="location-label">Fredericton, New Brunswick</p><h1>{title}</h1><p className="page-subtitle">{subtitle}</p></div></header>
+          <header className="page-header">
+            <div className="page-heading"><h1>{title}</h1><p className="page-subtitle">{subtitle}</p></div>
+            <form className="global-search" role="search" onSubmit={submitQuestion}>
+              <Icon name="search" size={19} />
+              <label className="visually-hidden" htmlFor="resource-search">Search local resources</label>
+              <input id="resource-search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search buses, groceries, Medicare..." />
+              <button type="submit">Search</button>
+            </form>
+          </header>
           {grouped ? <div className="saved-groups">
             {categories.map((category) => {
               const items = shownResources.filter((resource) => resource.category === category);
@@ -262,60 +253,6 @@ export default function Home() {
             {!shownResources.length && <div className="empty-state"><h2>No saved resources yet</h2><p>Browse a category and select the heart on a resource to keep it here.</p><button className="text-action" onClick={() => selectSection("First Week")}>Browse First Week <span>→</span></button></div>}
           </div> : categories.includes(section as Category) ? renderSubcategories(section as Category, shownResources) : shownResources.length ? <ResourceCarousel items={shownResources} savedIds={savedIds} toggleSaved={toggleSaved} /> : <p className="empty-note">No matching services found. Try a broader question.</p>}
         </div>
-        <button
-          className={`chat-launcher${chatOpen ? " is-open" : ""}`}
-          type="button"
-          aria-label={chatOpen ? "Close FreddyBuddy help" : "Ask FreddyBuddy a question"}
-          aria-haspopup="dialog"
-          aria-expanded={chatOpen}
-          aria-controls="help-dialog"
-          onClick={() => setChatOpen(true)}
-        >
-          <Icon name={chatOpen ? "close" : "chat"} size={23} />
-        </button>
-        <dialog
-          id="help-dialog"
-          ref={chatDialogRef}
-          className="chat-dialog"
-          aria-labelledby="chat-title"
-          onClose={() => setChatOpen(false)}
-          onClick={(event) => {
-            if (event.target === event.currentTarget) closeChat();
-          }}
-        >
-          <div className="chat-panel">
-            <header className="chat-header">
-              <span className="chat-avatar"><Icon name="chat" size={19} /></span>
-              <div className="chat-heading-copy">
-                <h2 id="chat-title">Ask FreddyBuddy</h2>
-                <p>Local services, easier to find.</p>
-              </div>
-              <button className="chat-close" type="button" onClick={closeChat} aria-label="Close chat">
-                <Icon name="close" size={19} />
-              </button>
-            </header>
-            <div className="chat-content">
-              <p className="chat-welcome">What are you looking for?</p>
-              <p className="chat-examples">Try “bus routes”, “groceries”, or “health card”.</p>
-              <form className="chat-form" onSubmit={submitQuestion}>
-                <label htmlFor="chat-question">Your question</label>
-                <div className="chat-input-row">
-                  <input
-                    id="chat-question"
-                    aria-label="Ask a question"
-                    value={query}
-                    onChange={(event) => setQuery(event.target.value)}
-                    placeholder="e.g. getting around by bus"
-                  />
-                  <button className="chat-submit" type="submit" aria-label="Find resources">
-                    <Icon name="arrow" size={18} />
-                  </button>
-                </div>
-                <p className="chat-footnote">We’ll show local resources related to your question.</p>
-              </form>
-            </div>
-          </div>
-        </dialog>
       </main>
     </div>
   );
